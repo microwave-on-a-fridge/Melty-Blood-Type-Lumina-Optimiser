@@ -1,0 +1,836 @@
+// 0はランダム用 数字部分がそのままBGナンバーに
+// DataFile = // BGデータフォルダ名、BGファイル名は bg.fbx 固定
+// Scale = [X,Y,Z] // モデル拡大率
+// Pos = [X,Y,Z] // モデル移動量
+// ViewGrid = // 1ならばグリッド表示
+// MSAA = // MSAAレベル 0-16 設定値が対応していない場合、カードの最大値となる。通常は2で
+// TargetW =  // レンダリングターゲット幅 基本値1280
+// TargetH =  // レンダリングターゲット高さ 基本値720
+// VanishingPoint = // 消失点位置 基本値0.0
+//
+// StageSelTex = // ステージセレクトでのグラフィック -1だとなし
+// SelectDisable =  // 選択禁止か
+// RandomDisable =  // ランダム禁止か
+// VsDisable =  // 対戦禁止か
+//
+// BGBloomEnable = 1, // OFF:0 / ON:1
+// BGBloomBlightness = 1.0, // 0 ～ 2 (Blightnessの値)
+// BGBloomPower = 3.0, // 0.1 ～ 5 (Powerの値)
+// BGBloomBiassR = 5.0, // 0 ～ 5 (Biassの項目のRの値)
+// BGBloomBiassG = 1.0, // 0 ～ 5 (Biassの項目のGの値)
+// BGBloomBiassB = 1.0, // 0 ～ 5 (Biassの項目のBの値)
+// BGBloomBlurRadius = 3.0, // 0 ～ 10 (Blur Radiusの値)
+// BGBloomTextureSize = 256, // 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。 (TextureSizeの値)
+// BGBloomAlpha = 0.5, // 0 ～ 1 (Alphaの値)
+// BGTinyFXAAEnable = 1, // OFF:0 / ON:1 (TinyFXAAの値)
+// BGTinyFXAAThreshold = 0.2, // 0 ～ 1 (TynyFXAAの項目のThresholdの値)
+// BGTinyFXAALerpT = 0.5, // 0 ～ 1 (TynyFXAAの項目のLerpTの値)
+
+// ShadowLightType = 0 ベタの乗算影, 1 テクスチャ色を参照した乗算影
+// ShadowLightStatus 影の偽光源ステータス、配列で８つまで設定可能
+// Type = 0 カメラに追従する光源（今までのやつ）, 1 ステージに固定された光源
+// Position = 光源のX位置、画面中央が0.0、リスタート状態の画面左右がだいたい-1.0、1.0
+// PowerValue = 光源の有効範囲、0.0で無限、Positionから離れるほど透明度が上がり、PowerValueで設定された範囲を超えると透明
+// Color = 光源による影の色[R,G,B,A]
+// ・多く設置する場合は距離設定でちゃんと透明になるようにして軽くする
+// ・ShadowLightType=1 で Color=[0.0,0.0,0.0,1.0] にすると黒を加算にするだけなので表示されない
+// ・ShadowLightStatusを記述しない場合、今までの影がでる
+// ・ShadowReflexColor = 反射用影の色[R,G,B,A] ※反射なしの場合は指定しない
+//
+// ※ 浮動小数点定数に「f」を使ってはいけない。 ×「0.0f」 ○「0.0」
+
+
+
+BgList <-
+{
+	// BGセレクト並び順
+	// SelectDisable なものを入れても無効
+	// 0 は書かないように（ランダムステージ扱い）
+	// 同じものを書くといっぱい出てくるので注意
+	// BG14 ストーリー専用なので選択不可
+	BgSelectList = [ 1,11,8,10,2,12,3,13,4,5,7,9,6,90 ], //※ギャラリーの並びと揃える
+
+	/////////////////////////////////////////////////////////
+	Bg_001 =
+	{
+		Name = "遠野邸（仮）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.31, 0.31, 0.31 ],
+		Position = [ 0.0, 0.0, 0.0 ],
+		ViewGrid = 0,
+		FOV = 43.0,
+		ViewRotationX = 5.0
+		ViewTranslationY = 0.3
+
+		IsFog = 0,
+		FogStart = 2.0, FogEnd = 9000.0,
+		FogColor = [ 0.3, 0.25, 1.0, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+		
+		ShadowLightType = 0,
+		ShadowLightStatus = 
+		[
+			{ Type=1, Position=-2.0, PowerValue=5.0, Color=[0.0,0.0,0.0,0.8] }, // 左
+			{ Type=1, Position=1.0, PowerValue=9.0, Color=[0.1,0.0,0.0,0.9] }, // 中央
+			{ Type=1, Position=2.0, PowerValue=5.0, Color=[0.0,0.0,0.0,0.8] }, // 右
+		],
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 1.1,	// 0 ～ 2
+		BGBloomPower = 3.00,			// 0.1 ～ 5
+		BGBloomBiassR = 0.6,		// 0 ～ 5
+		BGBloomBiassG = 0.6,		// 0 ～ 5
+		BGBloomBiassB = 1.3,		// 0 ～ 5
+		BGBloomBlurRadius = 1.50,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.4,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		StageSelTex = 1,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_002 =
+	{
+		Name = "学校（仮）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.72, 0.72, 0.72 ],
+		Position = [ 0.0, 0.0, -0.2 ],
+		ViewGrid = 0,
+		FOV = 50.0,
+		ViewRotationX = 7.0
+		ViewTranslationY = 0.3
+
+		IsFog = 0,
+		FogStart = 2.0, FogEnd = 9000.0,
+		FogColor = [ 1.0, 1.0, 1.0, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+		
+		ShadowLightType = 1,
+		ShadowLightStatus = 
+		[
+			{ Type=0, Position=-1.0, PowerValue=0.0, Color=[0.2,0.0,0.0,0.7] }, // 日差し
+		],
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 1.1,	// 0 ～ 2
+		BGBloomPower = 3.00,			// 0.1 ～ 5
+		BGBloomBiassR = 0.5,		// 0 ～ 5
+		BGBloomBiassG = 0.3,		// 0 ～ 5
+		BGBloomBiassB = 0.7,		// 0 ～ 5
+		BGBloomBlurRadius = 1.50,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.5,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+		StageSelTex = 2,
+}
+	/////////////////////////////////////////////////////////	
+	Bg_003 =
+	{
+		Name = "公園（仮称）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.2, 0.2, 0.2 ],
+		Position = [ 0.0, 0.0, -0.2 ],
+		ViewGrid = 0,
+		FOV = 50.0,
+		ViewRotationX = 1.0
+		ViewTranslationY = 0.3
+
+		IsFog = 0,
+		FogStart = 2.0, FogEnd = 9000.0,
+		FogColor = [ 0.5, 0.55, 0.3, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+		
+		ShadowLightType = 0,
+		ShadowLightStatus = 
+		[
+			{ Type=0, Position=0.0, PowerValue=0.0, Color=[0.0,0.0,0.0,0.6] },//ステージ中央地面反射
+		],
+		ShadowReflexColor = [ 0.8, 1.0, 1.0, 0.8 ], // RGBA
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 1.1,	// 0 ～ 2
+		BGBloomPower = 3.50,			// 0.1 ～ 5
+		BGBloomBiassR = 0.8,		// 0 ～ 5
+		BGBloomBiassG = 0.6,		// 0 ～ 5
+		BGBloomBiassB = 1.3,		// 0 ～ 5
+		BGBloomBlurRadius = 1.50,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.7,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 3,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_004 =
+	{
+		Name = "噴水（仮称）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.2, 0.2, 0.2 ],
+		Position = [ 0.0, 0.0, -0.2 ],
+		ViewGrid = 0,
+		FOV = 40.0,
+		ViewRotationX = -4.5
+		ViewTranslationY = 0.3
+
+		IsFog = 0,
+		FogStart = 2.0, FogEnd = 9000.0,
+		FogColor = [ 0.5, 0.55, 0.3, 0.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+		
+		ShadowLightType = 1,
+		ShadowLightStatus = 
+		[
+			{ Type=0, Position=0.5, PowerValue=0.0, Color=[0.2,0.0,0.1,0.75] }, // 日差し
+		],
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 1.1,	// 0 ～ 2
+		BGBloomPower = 3.00,			// 0.1 ～ 5
+		BGBloomBiassR = 0.8,		// 0 ～ 5
+		BGBloomBiassG = 0.6,		// 0 ～ 5
+		BGBloomBiassB = 1.3,		// 0 ～ 5
+		BGBloomBlurRadius = 1.50,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.5,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 4,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_005 =
+	{
+		Name = "路地裏（仮）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.32, 0.3, 0.3 ],
+		Position = [ 0.0, 0.0, 0.0 ],
+		ViewGrid = 0,
+		FOV = 40.0,
+		ViewRotationX = 5.0
+		ViewTranslationY = 0.3
+
+		IsFog = 0,
+		FogStart = 1.0, FogEnd = 200.0,
+		FogColor = [ 0.78, 0.75, 0.85, 0.25 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+
+		ShadowLightType = 1,
+		ShadowLightStatus = 
+		[
+			{ Type=0, Position=-1.5, PowerValue=9.0, Color=[0.0,0.0,0.0,0.8] }, // 日差し
+		],
+
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 1.2,	// 0 ～ 2
+		BGBloomPower = 3.50,			// 0.1 ～ 5
+		BGBloomBiassR = 0.5,		// 0 ～ 5
+		BGBloomBiassG = 0.5,		// 0 ～ 5
+		BGBloomBiassB = 0.7,		// 0 ～ 5
+		BGBloomBlurRadius = 1.50,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.3,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 5,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_006 =
+	{
+		Name = "地下墓地（仮称）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.7, 0.7, 0.7 ],
+		Position = [ 0.0, 0.0, 2.0 ],
+		ViewGrid = 0,
+		FOV = 48.0,
+		ViewRotationX = 10.0
+		ViewTranslationY = 0.3
+
+		IsFog = 1,
+		FogStart = -3.0, FogEnd = 30.0,
+		FogColor = [ 0.0, 0.25, 0.45, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+
+		ShadowLightType = 1,
+		ShadowLightStatus = 
+		[
+			{ Type=1, Position=-0.0, PowerValue=0.0, Color=[0.0,0.0,0.1,0.8] }, // 月光
+		],
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 1.1,	// 0 ～ 2
+		BGBloomPower = 3.00,			// 0.1 ～ 5
+		BGBloomBiassR = 0.6,		// 0 ～ 5
+		BGBloomBiassG = 2.0,		// 0 ～ 5
+		BGBloomBiassB = 2.0,		// 0 ～ 5
+		BGBloomBlurRadius = 2.00,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.6,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 6,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_007 =
+	{
+		Name = "危険地帯Ｂ（仮）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.5, 0.5, 0.5 ],
+		Position = [ 0.0, -0.2, 2.0 ],
+		ViewGrid = 0,
+		FOV = 40.0,
+		ViewRotationX = 3.0
+		ViewTranslationY = 0.0
+
+		IsFog = 0,
+		FogStart = -3.0, FogEnd = 30.0,
+		FogColor = [ 0.0, 0.4, 0.45, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+
+		ShadowLightType = 1,
+		ShadowLightStatus = 
+		[
+			{ Type=0, Position=-0.0, PowerValue=0.0, Color=[0.1,0.0,0.2,0.8] }, // 日差し
+		],
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 0.5,	// 0 ～ 2
+		BGBloomPower = 1.5,			// 0.1 ～ 5
+		BGBloomBiassR = 1.2,		// 0 ～ 5
+		BGBloomBiassG = 0.5,		// 0 ～ 5
+		BGBloomBiassB = 0.0,		// 0 ～ 5
+		BGBloomBlurRadius = 1.5,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.5,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.5,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 7,
+	}	
+	/////////////////////////////////////////////////////////
+	Bg_008 =
+	{
+		Name = "遠野邸外観（仮称）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.9, 1.0, 0.9 ],
+		Position = [ 0.0, 0.0, 3.5 ],
+		ViewGrid = 0,
+		FOV = 60.0,
+		ViewRotationX = 5.0
+		ViewTranslationY = 0.3
+
+		IsFog = 1,
+		FogStart = -3.0, FogEnd = 400.0,
+		FogColor = [ 1.0, 1.0, 1.0, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+
+		ShadowLightType = 0,
+		ShadowLightStatus = 
+		[
+			{ Type=0, Position=-1.0, PowerValue=23.0, Color=[0.0,0.0,0.0,0.75] }, // 中央
+		],
+
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 0.7,	// 0 ～ 2
+		BGBloomPower = 3.00,			// 0.1 ～ 5
+		BGBloomBiassR = 0.6,		// 0 ～ 5
+		BGBloomBiassG = 0.6,		// 0 ～ 5
+		BGBloomBiassB = 1.7,		// 0 ～ 5
+		BGBloomBlurRadius = 1.00,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.7,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 8,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_009 =
+	{
+		Name = "危険地帯Ａ（仮称）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.26, 0.26, 0.26 ],
+		Position = [ 0.0, 0.0, 1.0 ],
+		ViewGrid = 0,
+		FOV = 45.0,
+		ViewRotationX = 5.0
+		ViewTranslationY = 0.3
+
+		IsFog = 1,
+		FogStart = -3.0, FogEnd = 210.0,
+		FogColor = [ 0.0, 0.1, 0.45, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+
+		ShadowLightType = 0,
+		ShadowLightStatus = 
+		[
+			{ Type=1, Position=-2.0, PowerValue=7.0, Color=[0.1,0.0,0.1,0.8] }, // 左
+			{ Type=1, Position=0.0, PowerValue=7.0, Color=[0.1,0.0,0.1,0.8] }, // 中央
+			{ Type=1, Position=2.0, PowerValue=7.0, Color=[0.1,0.0,0.1,0.8] }, // 右
+		],
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 0.8,	// 0 ～ 2
+		BGBloomPower = 1.0,			// 0.1 ～ 5
+		BGBloomBiassR = 1.5,		// 0 ～ 5
+		BGBloomBiassG = 0.5,		// 0 ～ 5
+		BGBloomBiassB = 1.0,		// 0 ～ 5
+		BGBloomBlurRadius = 1.5,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.5,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 9,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_010 =
+	{
+		Name = "遠野邸外観夜（仮称）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.9, 1.0, 0.9 ],
+		Position = [ 0.0, 0.0, 3.5 ],
+		ViewGrid = 0,
+		FOV = 60.0,
+		ViewRotationX = 5.0
+		ViewTranslationY = 0.3
+
+		IsFog = 1,
+		FogStart = -3.0, FogEnd = 400.0,
+		FogColor = [ 0.2, 0.4, 1.0, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+
+		ShadowLightType = 0,
+		ShadowLightStatus = 
+		[
+			{ Type=1, Position=-2.5, PowerValue=6.0, Color=[0.0,0.0,0.0,0.8] }, // 左
+			{ Type=1, Position=0.0, PowerValue=5.0, Color=[0.0,0.0,0.0,0.8] }, // 中央
+			{ Type=1, Position=2.5, PowerValue=6.0, Color=[0.0,0.0,0.0,0.8] }, // 右
+		],
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 1.0,	// 0 ～ 2
+		BGBloomPower = 1.50,			// 0.1 ～ 5
+		BGBloomBiassR = 1.0,		// 0 ～ 5
+		BGBloomBiassG = 1.0,		// 0 ～ 5
+		BGBloomBiassB = 1.0,		// 0 ～ 5
+		BGBloomBlurRadius = 2.00,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.3,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 10,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_011 =
+	{
+		Name = "遠野邸内部昼（仮）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.31, 0.31, 0.31 ],
+		Position = [ 0.0, 0.0, 0.0 ],
+		ViewGrid = 0,
+		FOV = 43.0,
+		ViewRotationX = 5.0
+		ViewTranslationY = 0.3
+
+		IsFog = 0,
+		FogStart = 2.0, FogEnd = 9000.0,
+		FogColor = [ 0.3, 0.25, 1.0, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+		
+		ShadowLightType = 0,
+		ShadowLightStatus = 
+		[
+			{ Type=1, Position=1.0, PowerValue=0.0, Color=[0.1,0.1,0.0,0.7] }, // 中央
+			{ Type=1, Position=4.0, PowerValue=7.0, Color=[0.1,0.1,0.0,0.7] }, // 中央
+
+		],
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 1.1,	// 0 ～ 2
+		BGBloomPower = 3.00,			// 0.1 ～ 5
+		BGBloomBiassR = 1.0,		// 0 ～ 5
+		BGBloomBiassG = 0.6,		// 0 ～ 5
+		BGBloomBiassB = 1.3,		// 0 ～ 5
+		BGBloomBlurRadius = 1.50,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.3,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		StageSelTex = 11,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_012 =
+	{
+		Name = "学校夕暮れ（仮）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.72, 0.72, 0.72 ],
+		Position = [ 0.0, 0.0, -0.2 ],
+		ViewGrid = 0,
+		FOV = 50.0,
+		ViewRotationX = 7.0
+		ViewTranslationY = 0.3
+
+		IsFog = 0,
+		FogStart = 2.0, FogEnd = 2000.0,
+		FogColor = [ 0.9, 0.55, 0.0, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+		
+		ShadowLightType = 1,
+		ShadowLightStatus = 
+		[
+			{ Type=0, Position=-1.0, PowerValue=0.0, Color=[0.2,0.0,0.1,0.8] }, // 日差し
+		],
+
+		IsBloom = 0,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 0.40,	// 0 ～ 2
+		BGBloomPower = 0.80,			// 0.1 ～ 5
+		BGBloomBiassR = 1.0,		// 0 ～ 5
+		BGBloomBiassG = 1.0,		// 0 ～ 5
+		BGBloomBiassB = 1.0,		// 0 ～ 5
+		BGBloomBlurRadius = 1.5,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.5,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+		StageSelTex = 12,
+}
+	/////////////////////////////////////////////////////////	
+	Bg_013 =
+	{
+		Name = "公園昼（仮称）", // 全角32文字未満
+		DataFile = "bg015",
+
+		// RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.2, 0.2, 0.2 ],
+		Position = [ 0.0, 0.0, -0.2 ],
+		ViewGrid = 0,
+		FOV = 50.0,
+		ViewRotationX = 1.0
+		ViewTranslationY = 0.3
+
+		IsFog = 0,
+		FogStart = 2.0, FogEnd = 9000.0,
+		FogColor = [ 0.5, 0.55, 0.3, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+		
+		ShadowLightType = 0,
+		ShadowLightStatus = 
+		[
+			{ Type=0, Position=0.0, PowerValue=0.0, Color=[0.0,0.0,0.0,0.7] }, // 日差し
+		],
+
+		IsBloom = 1,
+		
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 1.35,	// 0 ～ 2
+		BGBloomPower = 3.00,			// 0.1 ～ 5 5
+		BGBloomBiassR = 0.57,		// 0 ～ 5 0.6
+		BGBloomBiassG = 0.27,		// 0 ～ 5 0.3
+		BGBloomBiassB = 0.7,		// 0 ～ 5 0.8
+		BGBloomBlurRadius = 1.50,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.3,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 13,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_014 =
+	{
+		Name = "ボスラッシュ地下墓地（仮）", // 全角32文字未満
+		DataFile = "bg015",
+
+		RandomDisable = 1, // ランダム禁止か
+		VsDisable = 1, // 対戦禁止か
+		
+		Scale = [ 0.7, 0.7, 0.7 ],
+		Position = [ 0.0, 0.0, 2.0 ],
+		ViewGrid = 0,
+		FOV = 48.0,
+		ViewRotationX = 10.0
+		ViewTranslationY = 0.3
+
+		IsFog = 1,
+		FogStart = -3.0, FogEnd = 30.0,
+		FogColor = [ 0.0, 0.25, 0.45, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+
+		ShadowLightType = 1,
+		ShadowLightStatus = 
+		[
+			{ Type=1, Position=-0.0, PowerValue=10.0, Color=[0.3,0.0,0.5,0.8] }, // 日差し
+		],
+
+		IsBloom = 0,
+
+		BGBloomEnable = 1,			// OFF:0 / ON:1
+		BGBloomBlightness = 1.1,	// 0 ～ 2
+		BGBloomPower = 2.00,			// 0.1 ～ 5
+		BGBloomBiassR = 0.6,		// 0 ～ 5
+		BGBloomBiassG = 2.0,		// 0 ～ 5
+		BGBloomBiassB = 2.0,		// 0 ～ 5
+		BGBloomBlurRadius = 2.00,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.6,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 6,
+	}
+	/////////////////////////////////////////////////////////
+	Bg_090 =
+	{
+		Name = "トレーニングステージ（仮称）", // 全角32文字未満
+		DataFile = "bg015",
+
+		RandomDisable = 1, // ランダム禁止か
+		// VsDisable = 1, // 対戦禁止か
+		Scale = [ 0.33, 0.33, 0.33 ],
+		Position = [ 0.0, 0.0, 0.0 ],
+		ViewGrid = 0,
+		FOV = 60.0,
+		ViewRotationX = 0.0
+		ViewTranslationY = 0.0
+		VanishingPoint = 0.2
+
+		IsFog = 0,
+		FogStart = -3.0, FogEnd = 400.0,
+		FogColor = [ 1.0, 1.0, 1.0, 1.0 ], // RGBA
+
+		MSAA = 2,
+		StageW = 4096, // 2560,4096
+		
+		ShadowLightType = 0,
+		ShadowLightStatus = 
+		[
+			{ Type=0, Position=0.0, PowerValue=15.0, Color=[0.0,0.0,0.3,0.55] },//ステージ中央地面反射
+		],
+		ShadowReflexColor = [ 1.0, 1.0, 1.0, 0.75 ], // RGBA
+		IsBloom = 0,
+		
+		BGBloomEnable = 0,			// OFF:0 / ON:1
+		BGBloomBlightness = 0.5,	// 0 ～ 2
+		BGBloomPower = 1.00,			// 0.1 ～ 5
+		BGBloomBiassR = 0.6,		// 0 ～ 5
+		BGBloomBiassG = 0.6,		// 0 ～ 5
+		BGBloomBiassB = 1.3,		// 0 ～ 5
+		BGBloomBlurRadius = 2.50,	// 0 ～ 10
+		BGBloomTextureSize = 128,	// 64 / 128 / 256 / 512 / 1024 の内どれか。見た目が許す限り、極力小さな値を選択してください。
+		BGBloomAlpha = 0.3,			// 0 ～ 1
+		BGTinyFXAAEnable = 0,		// OFF:0 / ON:1
+		BGTinyFXAAThreshold = 0.2,	// 0 ～ 1
+		BGTinyFXAALerpT = 0.5,		// 0 ～ 1
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+
+		StageSelTex = 20,
+	}
+	/////////////////////////////////////////////////////////	
+
+	Bg_099 =
+	{
+		Name = "デバッグステージ", // 全角32文字未満
+		DataFile = "",
+		
+		SelectDisable = 1, // 選択禁止か
+		RandomDisable = 1, // ランダム禁止か
+		VsDisable = 1, // 対戦禁止か
+
+		ViewGrid = 1,
+		FOV = 45.0,
+		VanishingPoint = 0.35, //
+
+
+		// キャラに乗せるグラデカラー
+		BgCharaYBaseColor   = [  0,   0,   0, 255],	// 足元
+		BgCharaYHeightColor = [255, 255, 255, 255],	// 頭先
+
+		StageW = 4096,
+		MSAA = 16,
+		
+		StageSelTex = 16,
+	}
+
+	/*
+	Bg番号の65535はキャラセレ用に予約
+	*/
+}
+
+
+
