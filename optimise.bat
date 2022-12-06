@@ -2,7 +2,7 @@
 :start
 set response=
 set /p response=Welcome to the Melty Blood Type Lumina Optimiser! Is MBTL installed in the default Steam directory (C:\Program Files (x86)\Steam\steamapps\common\)? (Y/N):
-if not '%response%'=='' set response=%response:0,1%
+if not '%response%'=='' set response=%response:~0,1%
 if '%response%'=='Y' goto yes
 if '%response%'=='y' goto yes
 if '%response%'=='yes' goto yes
